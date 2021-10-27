@@ -1,5 +1,7 @@
 
 import os
+import shutil
+#import config
 
 def safe_input(prompt,options):
     
@@ -24,4 +26,23 @@ def get_directory():
         input("That directory does not exist.\n[PRESS ENTER]")
         get_directory()
     else: return desired_dir
+
+
+def copy_this_file(source_file,dest_dir):
+    os.makedirs(dest_dir,exist_ok=True)
+    shutil.copy2(source_file,dest_dir)
+
+def move_this_file(source_file,dest_dir,filename):
+    
+    os.makedirs(dest_dir,exist_ok=True)
+
+    if os.path.isfile(dest_dir+"\\"+filename):
+        shutil.copy2(source_file,dest_dir)
+        os.remove(source_file)
+        print((dest_dir+"\\"+filename),"already exists. Deleting",source_file)
+        return
+    else:
+        shutil.move(source_file,dest_dir)
+        print("moved",source_file)
+
 
