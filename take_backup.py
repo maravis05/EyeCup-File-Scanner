@@ -41,4 +41,9 @@ for directory, _, files_list in os.walk(config.td):
             else: continue
             continue
 
+print("..........DONE..........")
+print("Scanned",scanned_files,"Files.")
+print("Copied",copied_files,"Files.")
+util.enter()
+
 

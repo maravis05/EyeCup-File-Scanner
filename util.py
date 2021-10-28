@@ -45,4 +45,6 @@ def move_this_file(source_file,dest_dir,filename):
         shutil.move(source_file,dest_dir)
         print("moved",source_file)
 
+def enter():
+    input("[PRESS ENTER TO CONTINUE]")
 
