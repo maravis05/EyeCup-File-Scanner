@@ -1,19 +1,27 @@
 
-from main import td
+import config
 import os
 import csv
 import datetime
 import time
 
 
-scannedFiles = 0
+scanned_files = 0
 all_good_files = []
+stamp_to_file = {}
+
+def find_first(timestamp):
+    global all_good_files
+    for file in all_good_files:
+        if file[9] == timestamp: return file
+
+
 
 print('..........SCANNING FILES..........')
 time.sleep(2)
 
 # goes through every path in target directory and gets list of files
-for directory, _, files_list in os.walk(td):
+for directory, _, files_list in os.walk(config.td):
     #directory looks like "c:\user\box\...\phonexx\images"
 
     # iterates over every file's name in the current path
@@ -23,24 +31,36 @@ for directory, _, files_list in os.walk(td):
         file_path = (directory+"\\"+ea_filename)
         # "c:\td\...\[filename].jpg"
         
-        scannedFiles += 1
-        if ( scannedFiles % 1000 ) == 0 : print("Scanned ",scannedFiles," files.")
+        scanned_files += 1
+        if ( scanned_files % 1000 ) == 0 : print("Scanned ",scanned_files," files.")
                 
-        fileAttributes = ea_filename.split("_")
+        file_attributes = ea_filename.split("_")
 
         try:
-            if fileAttributes[10]:
-                fileAttributes.remove(fileAttributes[10])
+            if len(file_attributes) > 10:
+                file_attributes.remove(file_attributes[10])
         except: pass
 
-        if len(fileAttributes) != 10 or len(fileAttributes[4]) != 2 or len(fileAttributes[5]) != 2:
+        if len(file_attributes) != 10:
             print("Skipping",file_path)
             continue
-        elif fileAttributes[1] == "000-000":
+        elif file_attributes[1] == "000-000":
             print("Skipping",file_path)
             continue
-        else: 
-            all_good_files.append(fileAttributes+[directory]+[ea_filename])
+        else:
+            file_attributes = file_attributes+[directory]+[ea_filename]
+            
+            #creating a dictionary of duplicate timestamps
+            if file_attributes[9] in all_good_files:
+                if file_attributes[9] not in stamp_to_file:
+                    stamp_to_file[file_attributes[9]] = find_first(file_attributes[9])
+                stamp_to_file[file_attributes[9]].append(file_attributes)
+
+            all_good_files.append(file_attributes)
+            all_good_files.sort()
+
+
+        
 
         # protocol = fileAttributes[0]
         # patient = fileAttributes[1]
@@ -57,11 +77,11 @@ for directory, _, files_list in os.walk(td):
         # print(fileAttributes+[fullPath]+[eachName])
         # input("Pausing...")
 
-all_good_files.sort()
+
 
 print("\n....................\n")
 print("Scanning complete.\n\n")
-print("Scanned", scannedFiles, "Files\n\n")
+print("Scanned", scanned_files, "Files\n\n")
 print("Found", len(all_good_files), "Properly Named Files\n")
 
 current = datetime.datetime.now()
@@ -93,5 +113,5 @@ try:
     print("Database successfully saved to",(os.getenv("userprofile") + "\\desktop\\scan reports"))
 except: input("couldn't write database file.")
 
-input("Done. Press enter to quit.")
+
 
