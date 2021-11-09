@@ -25,7 +25,11 @@ def dupe_dict(timestamp,file):
             stamp_to_file[timestamp] = find_first(timestamp)
         stamp_to_file[timestamp].append(file)
 
-
+def move_dupe_file(file,file_path,filename):
+    global all_good_files
+    if filename in all_good_files:
+        dest_dir = config.dd+"\\"+file[0]+"\\"+file[1]+"\\"+file[2]
+        util.move_this_file(file_path,dest_dir,filename)
 
 
 print('..........SCANNING FILES..........')
@@ -62,6 +66,7 @@ for directory, _, files_list in os.walk(config.td):
             file_attributes = file_attributes+[directory]+[ea_filename]
             
             if config.find_dupe_time == 'yes': dupe_dict(file_attributes[9],file_attributes)
+            if config.move_dupe_file == 'yes': move_dupe_file(file_attributes,file_path,ea_filename)
 
             all_good_files.append(file_attributes)
             all_good_files.sort()
