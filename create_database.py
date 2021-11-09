@@ -4,16 +4,27 @@ import os
 import csv
 import datetime
 import time
-
+import util
 
 scanned_files = 0
 all_good_files = []
 stamp_to_file = {}
 
 def find_first(timestamp):
+    #get first instance of duplicate timestamp
     global all_good_files
     for file in all_good_files:
         if file[9] == timestamp: return file
+
+def dupe_dict(timestamp,file):
+    global all_good_files
+    global stamp_to_file
+    #creating a dictionary of duplicate timestamps
+    if timestamp in all_good_files:
+        if timestamp not in stamp_to_file:
+            stamp_to_file[timestamp] = find_first(timestamp)
+        stamp_to_file[timestamp].append(file)
+
 
 
 
@@ -45,16 +56,12 @@ for directory, _, files_list in os.walk(config.td):
             print("Skipping",file_path)
             continue
         elif file_attributes[1] == "000-000":
-            print("Skipping",file_path)
+            util.move_this_file(file_path,"D:\\000-000\\"+directory.replace(config.td, ""),ea_filename)
             continue
         else:
             file_attributes = file_attributes+[directory]+[ea_filename]
             
-            #creating a dictionary of duplicate timestamps
-            if file_attributes[9] in all_good_files:
-                if file_attributes[9] not in stamp_to_file:
-                    stamp_to_file[file_attributes[9]] = find_first(file_attributes[9])
-                stamp_to_file[file_attributes[9]].append(file_attributes)
+            if config.find_dupe_time == 'yes': dupe_dict(file_attributes[9],file_attributes)
 
             all_good_files.append(file_attributes)
             all_good_files.sort()

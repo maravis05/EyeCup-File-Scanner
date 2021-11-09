@@ -18,7 +18,7 @@ def check_dir(dir):
 while z != 'q':
     os.system('cls')
     print("..........EYECUP FILE SCANNER..........\n")
-    choices = ['1 Create File Database','2 Take Backup from Box','3 Move Pixel Files','4 Create DB and Move Duplicate Timestamps']
+    choices = ['1 Create File Database','2 Take Backup from Box','3 Move Pixel Files','4 Move Duplicate Timestamps (Creates DB)']
     a = util.safe_input('What would you like to do?',choices)
 
     if a == '1':
@@ -54,6 +54,7 @@ while z != 'q':
         b = util.safe_input("Move duplicates to\n"+config.dd,yesno)
         if b == 'n': config.dd = util.get_directory()
         else: check_dir(config.dd)
+        config.find_dupe_time = 'yes'
         import create_database
         create_database
         import move_dupe_time
