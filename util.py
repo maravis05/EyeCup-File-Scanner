@@ -3,6 +3,9 @@ import os
 import shutil
 #import config
 
+moved_files = 0
+deleted_files = 0
+
 def safe_input(prompt,options):
     
     first_letters = []
@@ -33,18 +36,23 @@ def copy_this_file(source_file,dest_dir):
     shutil.copy2(source_file,dest_dir)
 
 def move_this_file(source_file,dest_dir,filename):
-    
+    global moved_files
+    global deleted_files
     os.makedirs(dest_dir,exist_ok=True)
 
-    if os.path.isfile(dest_dir+"\\"+filename):
-        shutil.copy2(source_file,dest_dir)
-        os.remove(source_file)
-        print((dest_dir+"\\"+filename),"already exists. Deleting",source_file)
-        return
-    else:
-        shutil.move(source_file,dest_dir)
-        print("moved",source_file)
+    try:
+        if os.path.isfile(dest_dir+"\\"+filename):
+            shutil.copy2(source_file,dest_dir)
+            os.remove(source_file)
+            deleted_files =+ 1
+            print((dest_dir+"\\"+filename),"already exists. Deleting",source_file)
+            return
+        else:
+            shutil.move(source_file,dest_dir)
+            print("moved",source_file)
+            moved_files =+ 1
+    except: pass
 
 def enter():
-    input("[PRESS ENTER TO CONTINUE]")
+    return input("[PRESS ENTER TO CONTINUE]")
 

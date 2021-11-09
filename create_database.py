@@ -10,26 +10,31 @@ scanned_files = 0
 all_good_files = []
 stamp_to_file = {}
 
+
 def find_first(timestamp):
     #get first instance of duplicate timestamp
     global all_good_files
-    for file in all_good_files:
-        if file[9] == timestamp: return file
+    for ea_file in all_good_files:
+        if ea_file[9] == timestamp: return ea_file
 
 def dupe_dict(timestamp,file):
     global all_good_files
     global stamp_to_file
     #creating a dictionary of duplicate timestamps
-    if timestamp in all_good_files:
-        if timestamp not in stamp_to_file:
-            stamp_to_file[timestamp] = find_first(timestamp)
-        stamp_to_file[timestamp].append(file)
+    for ea_file in all_good_files:
+        if timestamp in ea_file:
+            if timestamp not in stamp_to_file:
+                stamp_to_file[timestamp] = [find_first(timestamp)]
+            stamp_to_file[timestamp].append(file)
 
 def move_dupe_file(file,file_path,filename):
     global all_good_files
-    if filename in all_good_files:
-        dest_dir = config.dd+"\\"+file[0]+"\\"+file[1]+"\\"+file[2]
-        util.move_this_file(file_path,dest_dir,filename)
+    for ea_file in all_good_files:
+        if filename in ea_file:
+            dest_dir = config.dd+"\\"+file[0]+"\\"+file[1]+"\\"+file[2]
+            util.move_this_file(file_path,dest_dir,filename)
+            
+
 
 
 print('..........SCANNING FILES..........')
@@ -60,7 +65,7 @@ for directory, _, files_list in os.walk(config.td):
             print("Skipping",file_path)
             continue
         elif file_attributes[1] == "000-000":
-            util.move_this_file(file_path,"D:\\000-000\\"+directory.replace(config.td, ""),ea_filename)
+            util.move_this_file(file_path,config.dd+"\\000-000\\"+directory.replace(config.td, ""),ea_filename)
             continue
         else:
             file_attributes = file_attributes+[directory]+[ea_filename]
@@ -92,9 +97,11 @@ for directory, _, files_list in os.walk(config.td):
 
 
 print("\n....................\n")
-print("Scanning complete.\n\n")
-print("Scanned", scanned_files, "Files\n\n")
+print("Scanning complete.\n")
+print("Scanned", scanned_files, "Files\n")
 print("Found", len(all_good_files), "Properly Named Files\n")
+print("Moved",util.moved_files, "Files\n")
+print("Removed",util.deleted_files,"Duplicate Files\n")
 
 current = datetime.datetime.now()
 report_time = (str(current.year)+"-"+str(current.month)+"-"+str(current.day)+" "+str(current.hour)+"."+str(current.minute)+"."+str(current.second))
@@ -122,7 +129,7 @@ try:
         f = csv.writer(report)
         f.writerow(header)
         f.writerows(all_good_files)
-    print("Database successfully saved to",(os.getenv("userprofile") + "\\desktop\\scan reports"))
+    print("Database successfully saved to",(os.getenv("userprofile") + "\\desktop\\scan reports\n"))
 except: input("couldn't write database file.")
 
 
