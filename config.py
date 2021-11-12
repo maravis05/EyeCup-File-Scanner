@@ -9,4 +9,5 @@ dd = "D:\\Aldeyra EyeCup Photos"
 
 find_dupe_time = 'no'
 move_dupe_file = 'no'
-
+deleted_files = 0
+moved_files = 0

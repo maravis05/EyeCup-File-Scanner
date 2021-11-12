@@ -1,10 +1,8 @@
 
 import os
 import shutil
-#import config
+import config
 
-moved_files = 0
-deleted_files = 0
 
 def safe_input(prompt,options):
     
@@ -40,18 +38,17 @@ def move_this_file(source_file,dest_dir,filename):
     global deleted_files
     os.makedirs(dest_dir,exist_ok=True)
 
-    try:
-        if os.path.isfile(dest_dir+"\\"+filename):
-            shutil.copy2(source_file,dest_dir)
-            os.remove(source_file)
-            deleted_files =+ 1
-            print((dest_dir+"\\"+filename),"already exists. Deleting",source_file)
-            return
-        else:
-            shutil.move(source_file,dest_dir)
-            print("moved",source_file)
-            moved_files =+ 1
-    except: pass
+    if os.path.isfile(dest_dir+"\\"+filename):
+        shutil.copy2(source_file,dest_dir)
+        os.remove(source_file)
+        config.deleted_files =+ 1
+        print((dest_dir+"\\"+filename),"already exists. Deleting",source_file)
+        return
+    else:
+        shutil.move(source_file,dest_dir)
+        print("moved",source_file)
+        config.moved_files =+ 1
+    
 
 def enter():
     return input("[PRESS ENTER TO CONTINUE]")

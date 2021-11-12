@@ -28,7 +28,7 @@ for directory, _, files_list in os.walk(config.td):
             #print("Skipping",file_path)
             continue
         elif file_attributes[1] == "000-000":
-            #print("Skipping",file_path)
+            util.move_this_file(file_path,config.dd+"\\000-000\\"+directory.replace(config.td, ""),ea_filename)
             continue
         else:
             dest_dir = config.dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+file_attributes[2]

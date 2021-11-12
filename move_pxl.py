@@ -30,3 +30,4 @@ for directory, _, files_list in os.walk(config.td):
             if (moved_files % 1000) == 0 : print("Moved",moved_files,"files.")
         else: continue
 
+print("Moved",util.moved_files,"Files.")
