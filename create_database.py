@@ -94,6 +94,12 @@ for directory, _, files_list in os.walk(config.td):
         # print(fileAttributes+[fullPath]+[eachName])
         # input("Pausing...")
 
+if config.find_complete_sets == 'yes':
+    pass
+
+if config.move_files_from_csv == 'yes':
+    import move_files_from_csv
+    move_files_from_csv
 
 
 print("\n....................\n")

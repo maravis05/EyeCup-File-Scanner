@@ -11,3 +11,5 @@ find_dupe_time = 'no'
 move_dupe_file = 'no'
 deleted_files = 0
 moved_files = 0
+find_complete_sets = 'no'
+move_files_from_csv = 'yes'

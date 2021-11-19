@@ -20,6 +20,11 @@ for directory, _, files_list in os.walk(os.getenv("userprofile")+"\\Box\\Alderya
             file_attributes = file_attributes+[directory]+[ea_filename]
             all_good_files.append(file_attributes)
             all_good_files.sort()
+            
+
+
+
+
 
 header = [
     "PROTOCOL",
