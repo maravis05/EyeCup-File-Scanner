@@ -4,7 +4,7 @@ import util
 import config
 
 scanned_files = 0
-moved_files = 0
+
 
 for directory, _, files_list in os.walk(config.td):
     #directory looks like "c:\user\box\...\phonexx\images"
@@ -26,8 +26,8 @@ for directory, _, files_list in os.walk(config.td):
         if file_attributes[0] == 'PXL':
             dest_dir = config.dd+"\\"+relative_dir
             util.move_this_file(file_path,dest_dir,ea_filename)
-            moved_files += 1
-            if (moved_files % 1000) == 0 : print("Moved",moved_files,"files.")
+            config.moved_files += 1
+            if (config.moved_files % 1000) == 0 : print("Moved",config.moved_files,"files.")
         else: continue
 
-print("Moved",util.moved_files,"Files.")
+print("Moved",config.moved_files,"Files.")
