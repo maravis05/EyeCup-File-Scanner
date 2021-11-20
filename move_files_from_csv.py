@@ -1,23 +1,34 @@
 
 
-from create_database import all_good_files
+#from create_database import all_good_files
 import csv
-import util
 import os
+import shutil
+moved = 0
+total = 0
+not_moved = []
 
-dest = (os.getenv("userprofile")+"\\Box\\Alderya EyeCup Images\\019 test")
+dest = (os.getenv("userprofile")+"\\Box\\Alderya EyeCup Images\\019 J-Chin missing")
 
-
-with open("c:\\temp\\database") as database:
-    database = csv.reader(database, delimiter=',')
-
-with open("c:\\temp\\move.csv") as csv_file:
+with open("c:\\temp\\J-Chin Missing.csv") as csv_file:
     find_these = csv.reader(csv_file, delimiter=',')
-    
     for row in find_these:
-        for ea_file in database:
-            path = ea_file[10]+"\\"+ea_file[11]
-            new_file = ea_file[:7]
-            if row == new_file:
-                util.copy_this_file(path,dest)
+        good = 'no'
+
+        with open("c:\\temp\\database.csv") as database:
+            database = csv.reader(database, delimiter=',')
+            total += 1
+
+            for ea_file in database:
+                new_file = ea_file[:7]
+                path = ea_file[10]+"\\"+ea_file[11]
+                if row == new_file:
+                    shutil.copy2(path,dest)
+                    moved += 1
+                    good = 'yes'
+                    break
+        if good == 'no': print(row,"not found")
+
             
+            
+
