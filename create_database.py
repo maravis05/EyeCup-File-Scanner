@@ -65,7 +65,7 @@ for directory, _, files_list in os.walk(config.td):
             print("Skipping",file_path)
             continue
         elif file_attributes[1] == "000-000":
-            util.move_this_file(file_path,config.dd+"\\000-000\\"+directory.replace(config.td, ""),ea_filename)
+            util.move_this_file(file_path,"D:\\000-000\\"+directory.replace(config.td, ""),ea_filename)
             continue
         else:
             file_attributes = file_attributes+[directory]+[ea_filename]
