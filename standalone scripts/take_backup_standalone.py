@@ -9,6 +9,10 @@ dd = "D:\\Aldeyra EyeCup Photos"
 
 for directory, _, files_list in os.walk(td):
     for ea_filename in files_list:
+        
+        scanned_files += 1
+        if ( scanned_files % 1000 ) == 0 : print("Scanned ",scanned_files," files.")
+
         file_path = (directory+"\\"+ea_filename)
         file_attributes = ea_filename.split("_")
         try:
@@ -23,6 +27,7 @@ for directory, _, files_list in os.walk(td):
             if os.path.isfile(dest_dir+"\\"+ea_filename) != True:
                 os.makedirs(dest_dir,exist_ok=True)
                 shutil.copy2(file_path,dest_dir)
+                
             else: continue
             continue
 
