@@ -34,7 +34,7 @@ for directory, _, files_list in os.walk(config.td):
 
             if file_attributes[2] == "Visit1":
                 dest_dir = config.dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+file_attributes[2]
-            else: dest_dir = config.dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+"Vist2+3"
+            else: dest_dir = config.dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+"Vist2-3"
             
             if os.path.isfile(dest_dir+"\\"+ea_filename) != True:
                 util.copy_this_file(file_path,dest_dir)
