@@ -31,7 +31,10 @@ for directory, _, files_list in os.walk(config.td):
             util.move_this_file(file_path,"D:\\000-000\\"+directory.replace(config.td, ""),ea_filename)
             continue
         else:
-            dest_dir = config.dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+file_attributes[2]
+
+            if file_attributes[2] == "Visit1":
+                dest_dir = config.dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+file_attributes[2]
+            else: dest_dir = config.dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+"Vist2-3"
             
             if os.path.isfile(dest_dir+"\\"+ea_filename) != True:
                 util.copy_this_file(file_path,dest_dir)

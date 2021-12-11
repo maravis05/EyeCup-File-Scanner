@@ -23,7 +23,9 @@ for directory, _, files_list in os.walk(td):
         elif file_attributes[1] == "000-000":
             continue
         else:
-            dest_dir = dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+file_attributes[2]
+            if file_attributes[2] == "Visit1":
+                dest_dir = dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+file_attributes[2]
+            else: dest_dir = dd+"\\"+file_attributes[0]+"\\"+file_attributes[1]+"\\"+"Vist2-3"
             if os.path.isfile(dest_dir+"\\"+ea_filename) != True:
                 os.makedirs(dest_dir,exist_ok=True)
                 shutil.copy2(file_path,dest_dir)
