@@ -3,9 +3,14 @@ import os
 import csv
 
 all_good_files = []
+scanned_files = 0
 
 for directory, _, files_list in os.walk(os.getenv("userprofile")+"\\Box\\Alderya EyeCup Images"):
     for ea_filename in files_list:
+
+        scanned_files += 1
+        if ( scanned_files % 1000 ) == 0 : print("Scanned ",scanned_files," files.")
+
         file_attributes = ea_filename.split("_")
         try:
             if len(file_attributes) > 10:
@@ -21,10 +26,6 @@ for directory, _, files_list in os.walk(os.getenv("userprofile")+"\\Box\\Alderya
             all_good_files.append(file_attributes)
             all_good_files.sort()
             
-
-
-
-
 
 header = [
     "PROTOCOL",
@@ -42,7 +43,7 @@ header = [
 ]
 
 try:
-    with open(os.getenv("userprofile")+"\\Box\\Alderya EyeCup Images\\photodatabase.csv", "w", newline="") as report:
+    with open(os.getenv("userprofile")+"\\Box\\New EyeCup Project\\!photodatabase.csv", "w", newline="") as report:
         f = csv.writer(report)
         f.writerow(header)
         f.writerows(all_good_files)
